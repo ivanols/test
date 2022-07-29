@@ -1,9 +1,12 @@
-provider "aws" {
-  #version = ">= 2.28.1"
-  region = "eu-west-1"
-
+terraform {
+  required_providers {
+    aws = {
+      source = "hashicorp/aws"
+      version = "4.23.0"
+    }
+  }
 }
 
-terraform {
-  required_version = ">= 0.13"
+provider "aws" {
+  # Configuration options
 }
