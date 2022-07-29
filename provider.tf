@@ -1,5 +1,5 @@
 provider "aws" {
-  region = eu-west-1
+  region = ${{ secrets.AWS_REGION }}
 
 }
 terraform {
