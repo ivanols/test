@@ -82,6 +82,15 @@ jobs:
     # Checks that all Terraform configuration files adhere to a canonical format
     # - name: Terraform Format
     #  run: terraform fmt -check
+    
+    - name: Setup Github credentials
+      run: |
+        cat << EOF > .git/credentials
+        https://github:$PAT@github.com
+        EOF
+        git config --system credential.helper 'store --file=.git/credentials'
+      env:
+        PAT: ${{ secrets.ACTIONS_TOKEN }}
 
     # Generates an execution plan for Terraform
     - name: Terraform Plan
