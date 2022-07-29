@@ -8,5 +8,6 @@ terraform {
 }
 
 provider "aws" {
+  version = ">= 2.28.1"
   # Configuration options
 }
