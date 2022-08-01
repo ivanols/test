@@ -94,27 +94,53 @@ jobs:
   plan:
 
     # Generates an execution plan for Terraform
+    runs-on: ubuntu-latest
+    environment: dev
+    defaults:
+      run:
+        shell: bash
     if: github.event.inputs.apply == 'false'
     steps:
-    - name: Terraform Plan
-      #run: terraform plan -input=false
+    - name: Checkout
+      uses: actions/checkout@v3
+    - name: Setup Terraform
+      uses: hashicorp/setup-terraform@v1
+      with:
+        cli_config_credentials_token: ${{ secrets.TF_API_TOKEN }}
+    - name: Terraform Init
+      run: terraform init
       env:
         AWS_ACCESS_KEY_ID: ${{ secrets.AWS_ACCESS_KEY_ID }}
         AWS_SECRET_ACCESS_KEY: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
         AWS_DEFAULT_REGION: ${{ secrets.AWS_DEFAULT_REGION }} 
+    - name: Terraform Plan
+      #run: terraform plan -input=false
       run: terraform plan
       
   apply:
 
       # On push to "master", build or change infrastructure according to Terraform configuration files
       # Note: It is recommended to set up a required "strict" status check in your repository for "Terraform Cloud". See the documentation on "strict" required status checks for more information: https://help.github.com/en/github/administering-a-repository/types-of-required-status-checks
+    runs-on: ubuntu-latest
+    environment: dev
+    defaults:
+      run:
+        shell: bash
+    #if: github.ref == 'refs/heads/"master"' && github.event_name == 'push'
     if: github.event.inputs.apply == 'true'
     steps:
-    - name: Terraform Apply
-      #if: github.ref == 'refs/heads/"master"' && github.event_name == 'push'
-      #run: terraform apply -auto-approve -input=false
+    - name: Checkout
+      uses: actions/checkout@v3
+    - name: Setup Terraform
+      uses: hashicorp/setup-terraform@v1
+      with:
+        cli_config_credentials_token: ${{ secrets.TF_API_TOKEN }}
+    - name: Terraform Init
+      run: terraform init
       env:
         AWS_ACCESS_KEY_ID: ${{ secrets.AWS_ACCESS_KEY_ID }}
         AWS_SECRET_ACCESS_KEY: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
-        AWS_DEFAULT_REGION: ${{ secrets.AWS_DEFAULT_REGION }} 
+        AWS_DEFAULT_REGION: ${{ secrets.AWS_DEFAULT_REGION }}  
+    - name: Terraform Apply
+      #run: terraform apply -auto-approve -input=false
       run: terraform apply -auto-approve
