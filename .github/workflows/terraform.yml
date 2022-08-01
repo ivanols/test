@@ -44,11 +44,19 @@
 
 name: 'Terraform'
 
+#on:
+#  push:
+#    branches:
+#    - "master"
+#  pull_request:
+  
 on:
-  push:
-    branches:
-    - "master"
-  pull_request:
+  workflow_dispatch:
+    inputs:
+      apply:
+        description: Terraform apply [true of false]
+        required: true
+        default: "false"
 
 permissions:
   contents: read
@@ -82,6 +90,8 @@ jobs:
     # Checks that all Terraform configuration files adhere to a canonical format
     #- name: Terraform Format
     #  run: terraform fmt -check
+    
+  plan:
 
     # Generates an execution plan for Terraform
     - name: Terraform Plan
@@ -91,6 +101,8 @@ jobs:
         AWS_SECRET_ACCESS_KEY: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
         AWS_DEFAULT_REGION: ${{ secrets.AWS_DEFAULT_REGION }} 
       run: terraform plan
+      
+  apply:
 
       # On push to "master", build or change infrastructure according to Terraform configuration files
       # Note: It is recommended to set up a required "strict" status check in your repository for "Terraform Cloud". See the documentation on "strict" required status checks for more information: https://help.github.com/en/github/administering-a-repository/types-of-required-status-checks
