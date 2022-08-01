@@ -113,4 +113,4 @@ jobs:
           -backend-config=bucket=${{ env.tf_backend_container_name }} \
           -backend-config=key=${{ env.tf_backend_tfstate_name }}  \
           -backend-config=region=${{ env.tf_backend_region }}
-        terraform destroy
+        terraform destroy -auto-approve
