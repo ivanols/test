@@ -19,7 +19,7 @@ permissions:
   contents: read
   
 env:
-  tf_backend_container_name: test-12378
+  tf_backend_container_name: test12378
   tf_backend_tfstate_name: tfstate/test.tfstate
   tf_backend_region: eu-west-1  
 
