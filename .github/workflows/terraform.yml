@@ -50,7 +50,7 @@ jobs:
       with:
         cli_config_credentials_token: ${{ secrets.TF_API_TOKEN }}
     - name: Terraform Init/Plan
-      run: 
+      run: |
         terraform init \
           -backend-config=bucket=${{ env.tf_backend_container_name }} \
           -backend-config=key=${{ env.tf_backend_tfstate_name }}  \
@@ -80,7 +80,7 @@ jobs:
       with:
         cli_config_credentials_token: ${{ secrets.TF_API_TOKEN }}
     - name: Terraform Init/Apply
-      run: 
+      run: |
         terraform init \
           -backend-config=bucket=${{ env.tf_backend_container_name }} \
           -backend-config=key=${{ env.tf_backend_tfstate_name }}  \
@@ -108,7 +108,7 @@ jobs:
       with:
         cli_config_credentials_token: ${{ secrets.TF_API_TOKEN }}
     - name: Terraform Init/Destroy
-      run: 
+      run: |
         terraform init \
           -backend-config=bucket=${{ env.tf_backend_container_name }} \
           -backend-config=key=${{ env.tf_backend_tfstate_name }}  \
